@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureShare LAN - Secure Local File Sharing</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-icon">
+                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <circle cx="12" cy="11" r="3"/>
+                        <path d="M12 14v4"/>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <h2>SecureShare <span>LAN</span></h2>
+                    <span class="version-tag">v2.4 Pro</span>
+                </div>
+            </div>
+
+            <div class="network-badge">
+                <span class="status-indicator online"></span>
+                <div class="network-info-mini">
+                    <span class="network-status-text">LAN Connected</span>
+                    <span class="network-ip" id="sidebar-ip">192.168.1.104</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item active" data-view="dashboard">
+                        <a href="#dashboard">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="7" height="7" rx="1"/>
+                                <rect x="14" y="3" width="7" height="7" rx="1"/>
+                                <rect x="14" y="14" width="7" height="7" rx="1"/>
+                                <rect x="3" y="14" width="7" height="7" rx="1"/>
+                            </svg>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" data-view="shared-files">
+                        <a href="#shared-files">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                                <polyline points="12 11 12 17 15 14"/>
+                            </svg>
+                            <span>Shared Files</span>
+                            <span class="nav-badge" id="nav-file-count">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" data-view="upload">
+                        <a href="#upload">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="17 8 12 3 7 8"/>
+                                <line x1="12" y1="3" x2="12" y2="15"/>
+                            </svg>
+                            <span>Upload Area</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" data-view="security">
+                        <a href="#security">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            </svg>
+                            <span>Security Panel</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" data-view="activity">
+                        <a href="#activity">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                            </svg>
+                            <span>Activity Log</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" data-view="settings">
+                        <a href="#settings">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="3"/>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                            </svg>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="theme-toggle-container">
+                    <span class="theme-label">Theme</span>
+                    <button id="theme-toggle-btn" class="theme-btn" title="Toggle Light/Dark Theme">
+                        <svg class="sun-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5"/>
+                            <line x1="12" y1="1" x2="12" y2="3"/>
+                            <line x1="12" y1="21" x2="12" y2="23"/>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                            <line x1="1" y1="12" x2="3" y2="12"/>
+                            <line x1="21" y1="12" x2="23" y2="12"/>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                        </svg>
+                        <svg class="moon-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="node-identifier">
+                    <div class="node-dot"></div>
+                    <span id="device-node-name">Host-Node-Alpha</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header Bar -->
+            <header class="top-header">
+                <div class="header-left">
+                    <h1 id="page-title">Dashboard Overview</h1>
+                    <p class="subtitle" id="page-subtitle">Real-time LAN node monitoring and file management</p>
+                </div>
+                <div class="header-right">
+                    <div class="global-search-container">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        </svg>
+                        <input type="text" id="global-search-input" placeholder="Search shared LAN files...">
+                    </div>
+                    
+                    <div class="security-shield-badge" title="AES-256 LAN Encryption Active">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                        <span>Encrypted</span>
+                    </div>
+
+                    <button class="btn btn-primary" id="header-quick-upload-btn">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        <span>Upload File</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- VIEW 1: DASHBOARD -->
+            <section id="view-dashboard" class="content-view active">
+                <!-- Stat Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card glass-card">
+                        <div class="stat-header">
+                            <span class="stat-title">Shared Files</span>
+                            <div class="stat-icon icon-blue">
+                                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
+                                    <polyline points="13 2 13 9 20 9"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="stat-total-files">0</div>
+                        <div class="stat-footer positive">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                                <polyline points="17 6 23 6 23 12"/>
+                            </svg>
+                            <span>Available to LAN peers</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card glass-card">
+                        <div class="stat-header">
+                            <span class="stat-title">Storage Used</span>
+                            <div class="stat-icon icon-purple">
+                                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                                    <ellipse cx="12" cy="5" rx="9" ry="3"/>
+                                    <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
+                                    <path d="M21 19c0 1.66-4 3-9 3s-9-1.34-9-3"/>
+                                    <path d="M3 5v14"/>
+                                    <path d="M21 5v14"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="stat-storage-used">0 MB</div>
+                        <div class="storage-bar-container">
+                            <div class="storage-bar" id="stat-storage-bar" style="width: 0%"></div>
+                        </div>
+                        <div class="stat-footer light-text">
+                            <span id="stat-storage-text">0 MB / 10 GB (0%)</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card glass-card">
+                        <div class="stat-header">
+                            <span class="stat-title">Connected LAN Peers</span>
+                            <div class="stat-icon icon-cyan">
+                                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="stat-connected-peers">4 Active</div>
+                        <div class="stat-footer positive">
+                            <span class="pulse-dot"></span>
+                            <span>Direct Peer Mesh Active</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card glass-card">
+                        <div class="stat-header">
+                            <span class="stat-title">Security Health</span>
+                            <div class="stat-icon icon-green">
+                                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                    <polyline points="22 4 12 14.01 9 11.01"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="stat-value text-green">100% Secure</div>
+                        <div class="stat-footer positive">
+                            <span>0 Intrusions Detected</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Network Info Bar -->
+                <div class="network-info-card glass-card">
+                    <div class="network-info-header">
+                        <div class="net-title">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/>
+                                <rect x="2" y="14" width="20" height="8" rx="2" ry="2"/>
+                                <line x1="6" y1="6" x2="6.01" y2="6"/>
+                                <line x1="6" y1="18" x2="6.01" y2="18"/>
+                            </svg>
+                            <h3>Local Area Network Diagnostics</h3>
+                        </div>
+                        <span class="badge badge-success">Mesh Online</span>
+                    </div>
+                    <div class="network-details-grid">
+                        <div class="net-detail-item">
+                            <span class="detail-label">Local Node IP</span>
+                            <span class="detail-value" id="net-ip">192.168.1.104</span>
+                        </div>
+                        <div class="net-detail-item">
+                            <span class="detail-label">Broadcast Port</span>
+                            <span class="detail-value" id="net-port">8080 (HTTPS/WSS)</span>
+                        </div>
+                        <div class="net-detail-item">
+                            <span class="detail-label">Subnet Mask</span>
+                            <span class="detail-value">255.255.255.0</span>
+                        </div>
+                        <div class="net-detail-item">
+                            <span class="detail-label">Avg LAN Speed</span>
+                            <span class="detail-value text-cyan">450 Mbps (Wi-Fi 6)</span>
+                        </div>
+                        <div class="net-detail-item">
+                            <span class="detail-label">Protocol</span>
+                            <span class="detail-value">TLS WebSockets + WebRTC</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Two-Column Layout for Recent Files & Security Preview -->
+                <div class="dashboard-columns">
+                    <!-- Left: Recent Files -->
+                    <div class="dashboard-col glass-card">
+                        <div class="col-header">
+                            <h3>Recently Shared Files</h3>
+                            <button class="btn btn-sm btn-ghost switch-view-btn" data-target="shared-files">View All</button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table" id="recent-files-table">
+                                <thead>
+                                    <tr>
+                                        <th>File Name</th>
+                                        <th>Type</th>
+                                        <th>Size</th>
+                                        <th>Security</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recent-files-body">
+                                    <!-- Dynamic content -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Right: Quick Security & Activity Feed -->
+                    <div class="dashboard-col flex-col">
+                        <div class="glass-card side-panel-card">
+                            <div class="col-header">
+                                <h3>Security Highlights</h3>
+                                <button class="btn btn-sm btn-ghost switch-view-btn" data-target="security">Details</button>
+                            </div>
+                            <div class="security-mini-list">
+                                <div class="sec-mini-item">
+                                    <div class="sec-icon check">✓</div>
+                                    <div class="sec-info">
+                                        <span class="sec-title">LAN Firewall Filtering</span>
+                                        <span class="sec-sub">Restricted to subnet 192.168.1.0/24</span>
+                                    </div>
+                                </div>
+                                <div class="sec-mini-item">
+                                    <div class="sec-icon check">✓</div>
+                                    <div class="sec-info">
+                                        <span class="sec-title">Password Hash Verification</span>
+                                        <span class="sec-sub">PBKDF2 SHA-256 Key Derivation</span>
+                                    </div>
+                                </div>
+                                <div class="sec-mini-item">
+                                    <div class="sec-icon check">✓</div>
+                                    <div class="sec-info">
+                                        <span class="sec-title">Zero Unauthorized Access</span>
+                                        <span class="sec-sub">Last scan completed today</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card side-panel-card flex-1">
+                            <div class="col-header">
+                                <h3>Recent Activity</h3>
+                                <button class="btn btn-sm btn-ghost switch-view-btn" data-target="activity">View Log</button>
+                            </div>
+                            <div class="activity-feed-mini" id="dashboard-activity-feed">
+                                <!-- Dynamic content -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 2: SHARED FILES -->
+            <section id="view-shared-files" class="content-view">
+                <div class="files-toolbar glass-card">
+                    <div class="toolbar-left">
+                        <div class="search-box">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"/>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                            </svg>
+                            <input type="text" id="file-search-input" placeholder="Filter files by name or type...">
+                        </div>
+                        <div class="filter-dropdown-container">
+                            <label for="filter-category">Type:</label>
+                            <select id="filter-category" class="custom-select">
+                                <option value="all">All File Types</option>
+                                <option value="document">Documents</option>
+                                <option value="image">Images</option>
+                                <option value="video">Videos</option>
+                                <option value="audio">Audio</option>
+                                <option value="other">Other / Code</option>
+                            </select>
+                        </div>
+                        <div class="filter-dropdown-container">
+                            <label for="filter-access">Access:</label>
+                            <select id="filter-access" class="custom-select">
+                                <option value="all">All Access</option>
+                                <option value="public">Public</option>
+                                <option value="protected">Password Protected</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="toolbar-right">
+                        <div class="view-toggle">
+                            <button class="view-btn active" id="btn-view-grid" title="Grid View">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="7" height="7"/>
+                                    <rect x="14" y="3" width="7" height="7"/>
+                                    <rect x="14" y="14" width="7" height="7"/>
+                                    <rect x="3" y="14" width="7" height="7"/>
+                                </svg>
+                            </button>
+                            <button class="view-btn" id="btn-view-table" title="Table View">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="8" y1="6" x2="21" y2="6"/>
+                                    <line x1="8" y1="12" x2="21" y2="12"/>
+                                    <line x1="8" y1="18" x2="21" y2="18"/>
+                                    <line x1="3" y1="6" x2="3.01" y2="6"/>
+                                    <line x1="3" y1="12" x2="3.01" y2="12"/>
+                                    <line x1="3" y1="18" x2="3.01" y2="18"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <button class="btn btn-primary" id="files-upload-trigger">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"/>
+                                <line x1="5" y1="12" x2="19" y2="12"/>
+                            </svg>
+                            <span>Share New File</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Grid View Container -->
+                <div id="files-grid-container" class="files-grid">
+                    <!-- Dynamic File Cards -->
+                </div>
+
+                <!-- Table View Container -->
+                <div id="files-table-container" class="glass-card files-table-card hidden">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>File Name</th>
+                                    <th>Category</th>
+                                    <th>Size</th>
+                                    <th>Uploaded</th>
+                                    <th>Sender</th>
+                                    <th>Security Status</th>
+                                    <th class="text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="files-table-body">
+                                <!-- Dynamic File Rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="no-files-placeholder" class="empty-state glass-card hidden">
+                    <div class="empty-icon">
+                        <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <h3>No Shared Files Found</h3>
+                    <p>No files match your current search or filter criteria. Upload files to share over your LAN network.</p>
+                    <button class="btn btn-primary switch-view-btn" data-target="upload">Upload First File</button>
+                </div>
+            </section>
+
+            <!-- VIEW 3: UPLOAD AREA -->
+            <section id="view-upload" class="content-view">
+                <div class="upload-container glass-card">
+                    <div class="upload-header">
+                        <h2>Secure LAN File Upload</h2>
+                        <p>Select or drop files to make them instantly accessible to devices on your local network.</p>
+                    </div>
+
+                    <!-- Drag & Drop Zone -->
+                    <div class="drop-zone" id="drop-zone">
+                        <input type="file" id="file-input" multiple hidden>
+                        <div class="drop-zone-icon">
+                            <svg viewBox="0 0 24 24" width="60" height="60" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="17 8 12 3 7 8"/>
+                                <line x1="12" y1="3" x2="12" y2="15"/>
+                            </svg>
+                        </div>
+                        <h3>Drag & Drop Files Here</h3>
+                        <p class="drop-subtitle">or click below to browse files from your computer</p>
+                        <button class="btn btn-primary btn-lg" id="browse-files-btn">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                            </svg>
+                            <span>Browse Files</span>
+                        </button>
+                        <span class="file-limit-hint">Supports all file formats (Docs, Images, Videos, Audio, Archives) up to 2 GB per file.</span>
+                    </div>
+
+                    <!-- Upload Configuration & Queue -->
+                    <div class="upload-options-card">
+                        <h3>Security & Sharing Options</h3>
+                        <div class="upload-options-grid">
+                            <div class="form-group">
+                                <label for="upload-protection-toggle">Access Protection:</label>
+                                <select id="upload-protection-toggle" class="custom-select">
+                                    <option value="public">Public (Anyone on LAN can download)</option>
+                                    <option value="protected">Password Protected (Requires Passcode)</option>
+                                </select>
+                            </div>
+                            <div class="form-group hidden" id="upload-password-group">
+                                <label for="upload-password-input">Set Download Password:</label>
+                                <input type="password" id="upload-password-input" class="custom-input" placeholder="Enter secure password...">
+                            </div>
+                            <div class="form-group">
+                                <label for="upload-expiry">Auto Expire Link:</label>
+                                <select id="upload-expiry" class="custom-select">
+                                    <option value="never">Never (Persistent)</option>
+                                    <option value="1h">1 Hour</option>
+                                    <option value="24h">24 Hours</option>
+                                    <option value="7d">7 Days</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Upload Queue / Progress List -->
+                    <div id="upload-queue-container" class="upload-queue-card hidden">
+                        <div class="queue-header">
+                            <h3>Upload Queue (<span id="queue-count">0</span> files)</h3>
+                            <button class="btn btn-sm btn-success" id="start-upload-all-btn">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="5 3 19 12 5 21 5 3"/>
+                                </svg>
+                                <span>Start All Uploads</span>
+                            </button>
+                        </div>
+                        <div class="queue-list" id="queue-list">
+                            <!-- Queue Items populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 4: SECURITY PANEL -->
+            <section id="view-security" class="content-view">
+                <div class="security-grid">
+                    <!-- Security Overview Box -->
+                    <div class="glass-card sec-status-box">
+                        <div class="sec-status-header">
+                            <div class="sec-shield-big">
+                                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                    <polyline points="9 12 11 14 15 10"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h2>LAN Security Shield: ACTIVE</h2>
+                                <p>Local Network Communications & Protocol Health</p>
+                            </div>
+                        </div>
+                        <button class="btn btn-cyan" id="run-security-scan-btn">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+                            </svg>
+                            <span>Run Security Audit</span>
+                        </button>
+                    </div>
+
+                    <!-- Security Metrics Grid -->
+                    <div class="security-metrics-cards">
+                        <div class="sec-metric-card glass-card">
+                            <span class="metric-label">LAN Connection</span>
+                            <div class="metric-value text-green">
+                                <span class="pulse-dot"></span> Secure
+                            </div>
+                            <span class="metric-desc">Subnet Isolation Enabled</span>
+                        </div>
+                        <div class="sec-metric-card glass-card">
+                            <span class="metric-label">File Encryption</span>
+                            <div class="metric-value text-cyan">AES-256</div>
+                            <span class="metric-desc">Client-Side Virtual Cipher</span>
+                        </div>
+                        <div class="sec-metric-card glass-card">
+                            <span class="metric-label">Password Protection</span>
+                            <div class="metric-value text-blue">Enabled</div>
+                            <span class="metric-desc">SHA-256 Hashing Active</span>
+                        </div>
+                        <div class="sec-metric-card glass-card">
+                            <span class="metric-label">Unauthorized Access</span>
+                            <div class="metric-value text-green" id="sec-failed-attempts">0</div>
+                            <span class="metric-desc">Failed Password Attempts</span>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Security Scanner Output -->
+                    <div class="glass-card scan-results-card">
+                        <div class="col-header">
+                            <h3>Security System Status & Integrity Checks</h3>
+                            <span class="last-checked-text">Last Security Check: <strong id="last-security-check-time">Just now</strong></span>
+                        </div>
+
+                        <div class="scan-progress-container hidden" id="scan-progress-box">
+                            <div class="scan-status-text" id="scan-status-text">Scanning LAN subnet nodes...</div>
+                            <div class="scan-progress-bar">
+                                <div class="scan-progress-fill" id="scan-progress-fill"></div>
+                            </div>
+                        </div>
+
+                        <div class="security-checklist">
+                            <div class="check-item">
+                                <div class="check-status pass">PASS</div>
+                                <div class="check-info">
+                                    <h4>Local Subnet Whitelisting</h4>
+                                    <p>Only IP addresses matching 192.168.1.0/24 are granted direct handshake access.</p>
+                                </div>
+                            </div>
+                            <div class="check-item">
+                                <div class="check-status pass">PASS</div>
+                                <div class="check-info">
+                                    <h4>Secure Transport Protocol</h4>
+                                    <p>Encrypted WebSockets (WSS) and TLS 1.3 handshake simulated for all peer transfers.</p>
+                                </div>
+                            </div>
+                            <div class="check-item">
+                                <div class="check-status pass">PASS</div>
+                                <div class="check-info">
+                                    <h4>Password Hash Integrity</h4>
+                                    <p>All password-protected file links store zero-knowledge salted hashes in LocalStorage.</p>
+                                </div>
+                            </div>
+                            <div class="check-item">
+                                <div class="check-status pass">PASS</div>
+                                <div class="check-info">
+                                    <h4>Automated Rate Limiting</h4>
+                                    <p>Prevents brute-force passcode guessing on shareable link downloads.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 5: ACTIVITY LOG -->
+            <section id="view-activity" class="content-view">
+                <div class="glass-card activity-container">
+                    <div class="col-header">
+                        <div>
+                            <h2>Network Activity & Audit Trail</h2>
+                            <p>Real-time log of all upload, download, secure link, and security events.</p>
+                        </div>
+                        <button class="btn btn-danger-outline btn-sm" id="clear-activity-log-btn">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3 6 5 6 21 6"/>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                            </svg>
+                            <span>Clear Activity Log</span>
+                        </button>
+                    </div>
+
+                    <div class="activity-filters toolbar-mini">
+                        <span class="filter-label">Filter Log:</span>
+                        <button class="chip active" data-log-filter="all">All Events</button>
+                        <button class="chip" data-log-filter="upload">Uploads</button>
+                        <button class="chip" data-log-filter="download">Downloads</button>
+                        <button class="chip" data-log-filter="link">Secure Links</button>
+                        <button class="chip" data-log-filter="security">Security</button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="data-table" id="activity-log-table">
+                            <thead>
+                                <tr>
+                                    <th>Event Type</th>
+                                    <th>Details</th>
+                                    <th>Node / User</th>
+                                    <th>Timestamp</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="activity-log-body">
+                                <!-- Dynamic Activity Items -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 6: SETTINGS -->
+            <section id="view-settings" class="content-view">
+                <div class="settings-grid">
+                    <div class="glass-card settings-card">
+                        <h3>Node & Network Configuration</h3>
+                        <form id="settings-form">
+                            <div class="form-group">
+                                <label for="setting-device-name">LAN Node Name:</label>
+                                <input type="text" id="setting-device-name" class="custom-input" value="Host-Node-Alpha">
+                                <span class="help-text">Visible to other devices connected to your LAN.</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="setting-port">Listen Port:</label>
+                                <input type="number" id="setting-port" class="custom-input" value="8080">
+                                <span class="help-text">Port for local HTTP server broadcast.</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="setting-storage-limit">Storage Limit (GB):</label>
+                                <input type="number" id="setting-storage-limit" class="custom-input" value="10">
+                                <span class="help-text">Max virtual shared storage allocation.</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="setting-default-protection">Default File Protection:</label>
+                                <select id="setting-default-protection" class="custom-select">
+                                    <option value="public">Public Access</option>
+                                    <option value="protected">Require Password</option>
+                                </select>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Save Settings</button>
+                                <button type="button" class="btn btn-ghost" id="reset-settings-btn">Reset Defaults</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Backend Integration Guide for Mini-Project Presentation -->
+                    <div class="glass-card settings-card">
+                        <div class="integration-header">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="16 18 22 12 16 6"/>
+                                <polyline points="8 6 2 12 8 18"/>
+                            </svg>
+                            <h3>Computer Networks Project Architecture</h3>
+                        </div>
+                        <p class="integration-desc">
+                            This application is designed with an API-ready decoupled interface for simple socket/HTTP backend integration.
+                        </p>
+                        <div class="code-snippet-box">
+                            <pre><code>// Connecting Node.js / Express LAN Backend:
+const socket = new WebSocket('ws://192.168.1.104:8080');
+
+socket.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    if(data.type === 'LAN_FILE_BROADCAST') {
+        LANShareApp.registerRemoteFile(data.file);
+    }
+};</code></pre>
+                        </div>
+                        <div class="arch-bullets">
+                            <div class="arch-item">
+                                <strong>Real-time LAN Discovery:</strong> mDNS / SSDP Protocol
+                            </div>
+                            <div class="arch-item">
+                                <strong>File Transfer:</strong> Chunked WebSockets / Peer-to-Peer WebRTC RTCDataChannel
+                            </div>
+                            <div class="arch-item">
+                                <strong>Security Cipher:</strong> SubtleCrypto AES-GCM 256-bit
+                            </div>
+                        </div>
+
+                        <div class="danger-zone-box">
+                            <h4>Data Management</h4>
+                            <p>Clear all shared file metadata, settings, and logs stored in LocalStorage.</p>
+                            <button class="btn btn-danger btn-sm" id="reset-all-data-btn">Reset All Application Data</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MODAL 1: GENERATE SECURE LINK -->
+    <div class="modal-overlay hidden" id="modal-share-link">
+        <div class="modal-card glass-card">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                    </svg>
+                    <h3>Secure LAN Share Link</h3>
+                </div>
+                <button class="modal-close-btn" data-close-modal="modal-share-link">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="share-file-meta">
+                    <span class="file-meta-name" id="modal-share-filename">File_Name.pdf</span>
+                    <span class="badge badge-info" id="modal-share-status">Public</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Simulated LAN Secure URL:</label>
+                    <div class="copy-input-group">
+                        <input type="text" id="modal-share-url-input" class="custom-input readonly-input" readonly>
+                        <button class="btn btn-primary" id="modal-copy-link-btn">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                            </svg>
+                            <span>Copy</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="password-setup-card">
+                    <h4>Password Protection Toggle</h4>
+                    <div class="toggle-row">
+                        <span>Require passcode to download</span>
+                        <label class="switch">
+                            <input type="checkbox" id="modal-password-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="form-group hidden" id="modal-password-input-group">
+                        <label for="modal-file-password">Set Passcode:</label>
+                        <input type="password" id="modal-file-password" class="custom-input" placeholder="Enter download passcode...">
+                        <button class="btn btn-sm btn-ghost" id="modal-save-password-btn">Save Passcode</button>
+                    </div>
+                </div>
+
+                <div class="qr-code-preview">
+                    <div class="qr-box" id="qr-placeholder">
+                        <svg viewBox="0 0 24 24" width="60" height="60" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="3" y="3" width="7" height="7"/>
+                            <rect x="14" y="3" width="7" height="7"/>
+                            <rect x="14" y="14" width="7" height="7"/>
+                            <rect x="3" y="14" width="7" height="7"/>
+                            <line x1="7" y1="7" x2="7.01" y2="7"/>
+                            <line x1="18" y1="7" x2="18.01" y2="7"/>
+                            <line x1="7" y1="18" x2="7.01" y2="18"/>
+                        </svg>
+                        <span>LAN Mobile QR Access</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-close-modal="modal-share-link">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: PASSWORD PROMPT ON PROTECTED FILE DOWNLOAD -->
+    <div class="modal-overlay hidden" id="modal-password-prompt">
+        <div class="modal-card glass-card">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                    <h3>Protected File Passcode</h3>
+                </div>
+                <button class="modal-close-btn" data-close-modal="modal-password-prompt">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>This file is password protected. Enter the correct passcode to verify decryption and start downloading.</p>
+                <div class="form-group">
+                    <label for="prompt-passcode-input">Passcode:</label>
+                    <input type="password" id="prompt-passcode-input" class="custom-input" placeholder="Enter passcode...">
+                    <span class="error-text hidden" id="prompt-error-msg">Incorrect passcode. Access Denied!</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-close-modal="modal-password-prompt">Cancel</button>
+                <button class="btn btn-primary" id="prompt-submit-btn">Unlock & Download</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
